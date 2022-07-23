@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <div>
         <!-- 包含三级联动加顶部导航栏 -->
         <TypeNav/>
@@ -11,9 +11,7 @@
         <!-- 猜你喜欢模块 -->
         <Like/>
         <!--  -->
-        <Floor/>
-        <!--  -->
-        <Floor/>
+        <Floor v-for="(floor, index) in FloorList" :key="floor.id" :floor="floor"/>
     </div>
 </template>
 <script>
@@ -22,6 +20,7 @@ import TodayRecommend from '@/pages/Home/TodayRecommend'
 import Rank from '@/pages/Home/Rank'
 import Like from '@/pages/Home/Like'
 import Floor from '@/pages/Home/Floor'
+import {mapState} from 'vuex'
 
 export default {
     components: {
@@ -30,6 +29,13 @@ export default {
         Rank,
         Like,
         Floor
+    },
+    computed: {
+      ...mapState({
+        FloorList: (state) => {
+            return state.home.FloorList
+        }
+      })
     }
 }
 </script>

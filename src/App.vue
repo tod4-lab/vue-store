@@ -19,6 +19,8 @@ export default {
   mounted() {
     this.$router.push('/home');
     this.$store.dispatch('CategoryList')
+    this.$store.dispatch('BannerList')
+    this.$store.dispatch('FloorList')
   },
 }
 </script>

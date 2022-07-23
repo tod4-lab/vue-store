@@ -1,61 +1,68 @@
-<template lang="">
-    <div>
-        <!-- 商品分类导航 -->
-        <div class="type-nav">
-            <div class="container">
-                <div @mouseleave="leaveShow()" @mouseenter="enterShow()">
-                    <h2 class="all">全部商品分类</h2>
-                    <transition name="sort">
-                      <div class="sort" v-show="show">
-                          <div class="all-sort-list2">
+<template>
+  <div>
+    <!-- 商品分类导航 -->
+    <div class="type-nav">
+      <div class="container">
+        <div @mouseleave="leaveShow()" @mouseenter="enterShow()">
+          <h2 class="all">全部商品分类</h2>
+          <transition name="sort">
+            <div class="sort" v-show="show">
+              <div class="all-sort-list2">
 
-                              <div class="item"  
-                                  v-for="(c1, index) in CateGoryList" :key="c1.categoryId" 
-                                  :class="{cur:index==curIndex}"
-                                  @click="goSearch"
-                              >
+                <div class="item"
+                     v-for="(c1, index) in CateGoryList" :key="c1.categoryId"
+                     :class="{cur:index==curIndex}"
+                     @click="goSearch"
+                >
 
-                                  <h3 @mouseenter="changeIndex(index)">
-                                      <a :data-cateGoryName="c1.categoryName" :data-cateGory1Id="c1.categoryId">{{c1.categoryName}}</a>
-                                  </h3>
-                                  <div class="item-list clearfix" :style="{display:index==curIndex?'block':'none'}">
-                                      <div class="subitem" v-for="(c2, index) in c1.categoryChild" :key="c2.categoryId">
-                                          <dl class="fore">
-                                              <dt>
-                                                  <a :data-cateGoryName="c2.categoryName" :data-cateGory2Id="c2.categoryId">{{c2.categoryName}}</a>
-                                              </dt>
-                                              <dd>
-                                                  <em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
-                                                      <a :data-cateGoryName="c3.categoryName" :data-cateGory3Id="c3.categoryId">{{c3.categoryName}}</a>
-                                                  </em>
-                                              </dd>
-                                          </dl>
-                                      </div>
-                                  </div>
-                              </div>
-
-                          </div>
-                      </div>
-                    </transition>
-                    
+                  <h3 @mouseenter="changeIndex(index)">
+                    <a :data-cateGoryName="c1.categoryName" :data-cateGory1Id="c1.categoryId">{{
+                        c1.categoryName
+                      }}</a>
+                  </h3>
+                  <div class="item-list clearfix" :style="{display:index==curIndex?'block':'none'}">
+                    <div class="subitem" v-for="(c2, index) in c1.categoryChild" :key="c2.categoryId">
+                      <dl class="fore">
+                        <dt>
+                          <a :data-cateGoryName="c2.categoryName" :data-cateGory2Id="c2.categoryId">{{
+                              c2.categoryName
+                            }}</a>
+                        </dt>
+                        <dd>
+                          <em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
+                            <a :data-cateGoryName="c3.categoryName" :data-cateGory3Id="c3.categoryId">{{
+                                c3.categoryName
+                              }}</a>
+                          </em>
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
-                <nav class="nav">
-                    <a href="###">服装城</a>
-                    <a href="###">美妆馆</a>
-                    <a href="###">尚品汇超市</a>
-                    <a href="###">全球购</a>
-                    <a href="###">闪购</a>
-                    <a href="###">团购</a>
-                    <a href="###">有趣</a>
-                    <a href="###">秒杀</a>
-                </nav>
 
+              </div>
             </div>
+          </transition>
+
         </div>
+        <nav class="nav">
+          <a href="###">服装城</a>
+          <a href="###">美妆馆</a>
+          <a href="###">尚品汇超市</a>
+          <a href="###">全球购</a>
+          <a href="###">闪购</a>
+          <a href="###">团购</a>
+          <a href="###">有趣</a>
+          <a href="###">秒杀</a>
+        </nav>
+
+      </div>
     </div>
+  </div>
+
 </template>
 <script>
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 import throttle from "lodash/throttle";
 
 export default {
@@ -70,7 +77,7 @@ export default {
     // 通知vuex向服务器发送数据，并存储于home数据仓库中
     // App根组件请求一次，这里注释掉了
     // this.$store.dispatch("CategoryList");
-    
+
     // 当前组件不是home组件则不显示
     if (this.$route.name != "home") {
       this.show = false;
@@ -91,9 +98,9 @@ export default {
     },
     leaveShow() {
       this.curIndex = -1;
-      if(this.$route.name != 'home') {
+      if (this.$route.name != 'home') {
         this.show = false;
-      } 
+      }
     },
     changeIndex: throttle(function (index) {
       this.curIndex = index;
@@ -103,8 +110,8 @@ export default {
     },
     goSearch(event) {
       let element = event.target;
-      let { categoryname, category1id, category2id, category3id } =
-        element.dataset;
+      let {categoryname, category1id, category2id, category3id} =
+          element.dataset;
       if (categoryname) {
         // 整理参数
         let location = {
@@ -121,6 +128,10 @@ export default {
           query.category3id = category3id;
         }
         location.query = query;
+        // 合并参数
+        if (this.$route.params) {
+          location.params = this.$route.params
+        }
         // 转发路由传递参数
         this.$router.push(location);
       }
@@ -179,6 +190,7 @@ export default {
             padding: 0 20px;
             margin: 0;
             text-align: left;
+
             a {
               color: #333;
             }
@@ -244,22 +256,26 @@ export default {
           //     }
           //   }
         }
+
         .cur {
           background: skyblue;
         }
       }
     }
+
     // 过渡动画样式
     // 过渡动画开始状态
-    .sort-enter{
+    .sort-enter {
       height: 0px;
     }
+
     // 过渡动画结束状态
-    .sort-enter-to{
+    .sort-enter-to {
       height: 461px;
     }
+
     // 定义动画的时间、速率等
-    .sort-enter-active{
+    .sort-enter-active {
       transition: .2s linear;
       // 可以解决文字的显示问题
       overflow: hidden;

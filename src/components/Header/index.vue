@@ -67,18 +67,19 @@ export default {
   },
   methods: {
     goSearch() {
-      this.$router.push(
-        {
-          name: "search",
-          params: {
-            keyWord: this.keyWord,
-          },
-          query: {
-            k: this.keyWord.toUpperCase(),
-          },
-        }
-      );
-    },
+      let location = {
+        name: "search"
+      }
+      let params = {
+        keyWord: this.keyWord
+      }
+      location.params = params
+      if(this.$route.query) {
+        location.query = this.$route.query
+      }
+
+      this.$router.push(location);
+    }
   },
 };
 </script>
