@@ -32,12 +32,19 @@ export default new VueRouter({
             }
         },
         {
-            path: '/search:keyWord',
+            path: '/search/:keyword',
             component: Search,
             meta: {
                 showFooter: true
             },
             name: 'search'
+        },
+        {
+            path: '/search',
+            component: Search,
+            meta: {
+                showFooter: true
+            },
         },
         // 重定向
         // {

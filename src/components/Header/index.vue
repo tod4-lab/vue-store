@@ -41,7 +41,7 @@
             <input
               type="text"
               id="autocomplete"
-              v-model="keyWord"
+              v-model="keyword"
               class="input-error input-xxlarge"
             />
             <button
@@ -62,8 +62,13 @@ export default {
   name: "Header",
   data() {
     return {
-      keyWord: "",
+      keyword: "",
     };
+  },
+  mounted() {
+    this.$bus.$on('removeKeyWord', () => {
+      this.keyword = ''
+    })
   },
   methods: {
     goSearch() {
@@ -71,7 +76,7 @@ export default {
         name: "search"
       }
       let params = {
-        keyWord: this.keyWord
+        keyword: this.keyword
       }
       location.params = params
       if(this.$route.query) {

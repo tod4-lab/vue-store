@@ -23,3 +23,11 @@ export const reqFloorList = () => {
         method: 'get'
     })
 }
+
+export const reqGetSearchInfo = (params={}) => {
+    return requests({
+        url: '/list',
+        method: 'post',
+        data: params
+    })
+}
