@@ -33,7 +33,7 @@
       <div class="fl key">{{attr.attrName}}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue, index1) in attr.attrValueList" :key="index1">
+          <li v-for="(attrValue, index1) in attr.attrValueList" :key="index1" @click="attrInfoHandler(attr.attrId, attr.attrName, attrValue)">
             <a>{{attrValue}}</a>
           </li>
         </ul>
@@ -57,6 +57,15 @@
     methods: {
       tradeMarkHandler(tradeMark) {
         this.$emit('traderMarkInfo', tradeMark)
+      },
+      attrInfoHandler(attrId, attrName, attrValue) {
+        // console.log(attrId, attrName, attrValue)
+        let attr = {
+          'attrId' : attrId,
+          'attrName' : attrName,
+          'attrValue' : attrValue
+        }
+        this.$emit('attrInfo', attr)
       }
     }
   }
@@ -136,6 +145,10 @@
             a {
               text-decoration: none;
               color: #666;
+              cursor: pointer;
+            }
+            a:hover {
+              color: #e1241b;
             }
           }
         }

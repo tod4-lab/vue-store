@@ -1,57 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/pages/Home'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
-import Search from '@/pages/Search'
+import routes from "@/router/routes";
 
 Vue.use(VueRouter)
 
 export default new VueRouter({
-    routes: [
-        {
-            path: '/home',
-            component: Home,
-            name: 'home',
-            meta: {
-                showFooter: true
-            }
-        },
-        {
-            path: '/login',
-            component: Login,
-            meta: {
-                showFooter: false
-            }
-        },
-        {
-            path: '/register',
-            component: Register,
-            meta: {
-                showFooter: false
-            }
-        },
-        {
-            path: '/search/:keyword',
-            component: Search,
-            meta: {
-                showFooter: true
-            },
-            name: 'search'
-        },
-        {
-            path: '/search',
-            component: Search,
-            meta: {
-                showFooter: true
-            },
-        },
-        // 重定向
-        // {
-        //     path: '*',
-        //     redirect: '/home'
-        // }
-    ]
+    routes,
+    scrollBehavior(to, from, savePosition) {
+        return {y : 0}
+    }
 })
 // 保存原型push方法
 let orignPush = VueRouter.prototype.push;

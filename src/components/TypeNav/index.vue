@@ -4,7 +4,7 @@
     <div class="type-nav">
       <div class="container">
         <div @mouseleave="leaveShow()" @mouseenter="enterShow()">
-          <h2 class="all">全部商品分类</h2>
+          <h2 class="all" >全部商品分类</h2>
           <transition name="sort">
             <div class="sort" v-show="show">
               <div class="all-sort-list2">
@@ -16,7 +16,7 @@
                 >
 
                   <h3 @mouseenter="changeIndex(index)">
-                    <a :data-cateGoryName="c1.categoryName" :data-cateGory1Id="c1.categoryId">{{
+                    <a class="pointer" :data-cateGoryName="c1.categoryName" :data-cateGory1Id="c1.categoryId">{{
                         c1.categoryName
                       }}</a>
                   </h3>
@@ -24,13 +24,13 @@
                     <div class="subitem" v-for="(c2, index) in c1.categoryChild" :key="c2.categoryId">
                       <dl class="fore">
                         <dt>
-                          <a :data-cateGoryName="c2.categoryName" :data-cateGory2Id="c2.categoryId">{{
+                          <a class="pointer" :data-cateGoryName="c2.categoryName" :data-cateGory2Id="c2.categoryId">{{
                               c2.categoryName
                             }}</a>
                         </dt>
                         <dd>
                           <em v-for="(c3, index) in c2.categoryChild" :key="c3.categoryId">
-                            <a :data-cateGoryName="c3.categoryName" :data-cateGory3Id="c3.categoryId">{{
+                            <a class="pointer" :data-cateGoryName="c3.categoryName" :data-cateGory3Id="c3.categoryId">{{
                                 c3.categoryName
                               }}</a>
                           </em>
@@ -115,7 +115,7 @@ export default {
       if (categoryname) {
         // 整理参数
         let location = {
-          name: "search",
+          name: "searchQuery",
         };
         let query = {
           categoryname: categoryname,
@@ -142,7 +142,9 @@ export default {
 <style lang="less">
 .type-nav {
   border-bottom: 2px solid #e1251b;
-
+  .pointer {
+    cursor: pointer;
+  }
   .container {
     width: 1200px;
     margin: 0 auto;

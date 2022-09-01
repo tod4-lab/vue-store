@@ -73,7 +73,7 @@ export default {
   methods: {
     goSearch() {
       let location = {
-        name: "search"
+        name: "searchParams"
       }
       let params = {
         keyword: this.keyword

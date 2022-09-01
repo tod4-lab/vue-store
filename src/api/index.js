@@ -31,3 +31,10 @@ export const reqGetSearchInfo = (params={}) => {
         data: params
     })
 }
+
+export const reqGetDetailInfo = (skuId ={}) => {
+    return requests(({
+        url:`/item/${skuId}`,
+        method: 'get'
+    }))
+}
