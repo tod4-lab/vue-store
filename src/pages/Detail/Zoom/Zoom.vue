@@ -1,21 +1,55 @@
 <template>
   <div class="spec-preview">
-    <img :src="skuDefaultImg" />
-    <div class="event"></div>
+    <img :src="imgObj.imgUrl" />
+    <div class="event" @mousemove="handle()"></div>
     <div class="big">
-      <img :src="skuDefaultImg" />
+      <img :src="imgObj.imgUrl" ref="big" />
     </div>
-    <div class="mask"></div>
+    <div class="mask" ref="mask"></div>
   </div>
 </template>
 
 <script>
   export default {
     name: "Zoom",
-    props: ['skuDefaultImg'],
+    props: ['skuImageList'],
+    data() {
+      return {
+        curIndex: 0
+      }
+    },
     computed: {
       imgObj() {
-        return this.skuDefaultImg || {}
+        if(typeof (this.skuImageList) === 'undefined')
+          return {}
+        return this.skuImageList[this.curIndex]
+      },
+    },
+    mounted() {
+      this.$bus.$on('changeImg', (index) => {
+        this.curIndex = index
+      })
+    },
+    methods: {
+      handle() {
+        // console.log(event)
+        let mask = this.$refs.mask
+        let big = this.$refs.big
+
+        let left = event.offsetX - mask.offsetWidth / 2
+        let top = event.offsetY - mask.offsetHeight / 2
+
+        if(left < 0) left = 0
+        if(top < 0) top = 0
+        if(left > mask.offsetWidth) left = mask.offsetWidth
+        if(top > mask.offsetHeight) top = mask.offsetHeight
+
+        mask.style.left = left + 'px'
+        mask.style.top = top + 'px'
+
+        big.style.left = -2 * left + 'px'
+        big.style.top = -2 * top + 'px'
+
       }
     }
   }

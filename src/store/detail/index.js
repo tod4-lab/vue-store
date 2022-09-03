@@ -1,15 +1,24 @@
-import {reqGetDetailInfo} from "@/api";
-
+import {reqGetDetailInfo, reqAddOrUpdateShopCar} from "@/api";
+import {getUUID} from '@/utils/uuid_token'
 const actions = {
     async getDetailInfo(context, skuId) {
         let result = await reqGetDetailInfo(skuId);
         if(result.code === 200) {
             context.commit('GETDETAILINFO', result.data);
         }
+    },
+    async addOrUpdateShopCar({context}, {skuId, skuNum}) {
+        let result = await reqAddOrUpdateShopCar(skuId, skuNum)
+        if(result.code === 200) {
+            return 'ok';
+        } else {
+            return Promise.reject(new Error('fail'));
+        }
     }
 }
 const state = {
-    detailInfo: {}
+    detailInfo: {},
+    uuid_token: getUUID()
 }
 const mutations = {
     GETDETAILINFO(state, detailInfo) {

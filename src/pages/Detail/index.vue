@@ -19,7 +19,7 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom :skuDefaultImg="skuInfo.skuDefaultImg"/>
+          <Zoom :skuImageList="skuInfo.skuImageList"/>
           <!-- 小图列表 -->
           <ImageList :skuImageList="skuInfo.skuImageList || []"/>
         </div>
@@ -66,11 +66,12 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl v-for="(spuSaleAttr, index) in spuSaleAttrList" :key="index">
+              <dl v-for="(spuSaleAttr, index1) in spuSaleAttrList" :key="spuSaleAttr.id">
                 <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
-                <dd changepirce="0" :class="{active : spuSaleAttrValue.isChecked === '1'}"
-                    v-for="(spuSaleAttrValue, index) in spuSaleAttr.spuSaleAttrValueList" :key="index">
-                  {{ spuSaleAttrValue.isChecked == '1' }}
+                <dd changepirce="0" :class="{active : spuSaleAttrValue.isChecked == '1'}"
+                    @click="isCheckedHandle(spuSaleAttrValue.saleAttrValueName, spuSaleAttr.spuSaleAttrValueList)"
+                    v-for="(spuSaleAttrValue, index2) in spuSaleAttr.spuSaleAttrValueList" :key="spuSaleAttrValue.id">
+                  {{ spuSaleAttrValue.saleAttrValueName }}
                 </dd>
                 <!--                <dd changepirce="0" class="active">金色</dd>-->
                 <!--                <dd changepirce="40">银色</dd>-->
@@ -79,12 +80,12 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
+                <input v-model="skuNum" @change="changeSkuNum" autocomplete="off" class="itxt">
                 <a href="javascript:" class="plus">+</a>
                 <a href="javascript:" class="mins">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="addShopCar">加入购物车</a>
               </div>
             </div>
           </div>
@@ -431,6 +432,11 @@ export default {
     Zoom,
     ImageList
   },
+  data() {
+    return {
+      skuNum: 1
+    }
+  },
   name: "index",
   mounted() {
     this.$store.dispatch('getDetailInfo', this.$route.params.skuId)
@@ -440,6 +446,42 @@ export default {
   },
   methods: {
     goSearch() {
+
+    },
+    // 商品数量
+    changeSkuNum(event) {
+      let value = event.target.value * 1
+      if(isNaN(value) || value < 1 || value > 999) {
+        console.log('非法数据')
+      } else {
+        this.skuNum = parseInt(value)
+      }
+    },
+    isCheckedHandle(saleAttrValueName, attr) {
+      attr.map(item => {
+        if(item.saleAttrValueName === saleAttrValueName) {
+          item.isChecked = '1'
+        } else {
+          item.isChecked = '0'
+        }
+        return item
+      })
+    },
+    // 购物车添加
+    async addShopCar() {
+      try{
+        await this.$store.dispatch('addOrUpdateShopCar', {
+          skuId : this.skuInfo.id,
+          skuNum : this.skuNum
+        });
+        // 路由跳转
+        this.$router.push({name: 'addShopCarSuccess', query:{skuNum: this.skuNum}})
+        sessionStorage.setItem('skuInfo', JSON.stringify(this.skuInfo))
+        sessionStorage.setItem('spuSaleAttrList', JSON.stringify(this.spuSaleAttrList))
+
+      } catch (error) {
+        alert(error.message)
+      }
 
     }
   }
@@ -1321,10 +1363,13 @@ export default {
                 border-bottom: 1px solid #bbb;
                 border-left: 1px solid #eee;
                 cursor: pointer;
-                //&:nth-of-type(1) {
-                //  color: red;
-                //}
+
+                &.active {
+                  color: #f60;
+                  border: 2px solid #f60;
+                }
               }
+
             }
           }
 
@@ -1370,7 +1415,7 @@ export default {
 
             .add {
               float: left;
-
+              cursor: pointer;
               a {
                 background-color: #e1251b;
                 padding: 0 25px;

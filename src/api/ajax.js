@@ -4,6 +4,7 @@ import axios from 'axios'
 import nprogress from 'nprogress'
 // 引入进度条样式
 import 'nprogress/nprogress.css'
+import store from '@/store'
 
 // 1 利用axios create创建一个axios实例
 // 2 requests就是配置参数后的axios实例
@@ -15,9 +16,13 @@ const requests = axios.create({
 })
 // 请求拦截器，在请求发出之前能够检测到，做一些指定的业务
 requests.interceptors.request.use((config)=>{
+    // console.log(store.state.detail.uuid_token)
     nprogress.start();
     // 参数为config的回调函数
     // config为配置对象，包含一个中要的属性headers请求头
+    if(store.state.detail.uuid_token) {
+        config.headers.userTempId = store.state.detail.uuid_token
+    }
     return config;
 });
 requests.interceptors.response.use((res)=>{

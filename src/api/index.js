@@ -33,8 +33,40 @@ export const reqGetSearchInfo = (params={}) => {
 }
 
 export const reqGetDetailInfo = (skuId ={}) => {
-    return requests(({
+    return requests({
         url:`/item/${skuId}`,
         method: 'get'
-    }))
+    })
+}
+
+// api/cart/addToCart/{ skuId }/{ skuNum }
+export const reqAddOrUpdateShopCar = (skuId, skuNum) => {
+    return requests({
+        url:`/cart/addToCart/${skuId}/${skuNum}`,
+        method: 'post'
+    })
+}
+
+// /api/cart/cartList
+export const reqCarList = () => {
+    return requests({
+        url: '/cart/cartList',
+        method: 'get'
+    })
+}
+
+// /api/cart/deleteCart/{skuId}
+export const reqDeleteCarList = (skuId) => {
+    return requests({
+        url: `/cart/deleteCart/${skuId}`,
+        method: 'delete'
+    })
+}
+
+// /api/cart/checkCart/{skuID}/{isChecked}
+export const reqCheckCart = (skuID, isChecked) => {
+    return requests({
+        url: `/cart/checkCart/${skuID}/${isChecked}`,
+        method: 'get'
+    })
 }

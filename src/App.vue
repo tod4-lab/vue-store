@@ -21,7 +21,7 @@ export default {
     this.$store.dispatch('CategoryList');
     this.$store.dispatch('BannerList');
     this.$store.dispatch('FloorList');
-  },
+  }
 }
 </script>
 
