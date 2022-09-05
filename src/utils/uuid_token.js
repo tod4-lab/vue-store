@@ -9,3 +9,12 @@ export const getUUID = () => {
     localStorage.setItem('UUID_TOKEN', uuid_token)
     return uuid_token
 }
+
+export const getToken = () => {
+    let token = localStorage.getItem('TOKEN')
+    return token
+}
+
+export const setToken = (token) => {
+    localStorage.setItem('TOKEN', token)
+}

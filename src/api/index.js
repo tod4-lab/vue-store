@@ -70,3 +70,59 @@ export const reqCheckCart = (skuID, isChecked) => {
         method: 'get'
     })
 }
+
+// /api/user/passport/sendCode/phone
+export const reqPhoneCode = (phone) => {
+    return requests({
+        url: `/user/passport/sendCode/${phone}`,
+        method: 'get'
+    })
+}
+
+// /api/user/passport/register
+export const reqUserRegister = ({phone, password, code}) => {
+    return requests({
+        url: '/user/passport/register',
+        data: {
+            phone: phone,
+            password: password,
+            code: code
+        },
+        method: 'post'
+    })
+}
+
+// /api/user/passport/login
+export const reqUserLogin = (phone, password) => {
+    return requests({
+        url: '/user/passport/login',
+        data: {
+            phone: phone,
+            password: password
+        },
+        method: 'post'
+    })
+}
+
+// /api/user/passport/auth/getUserInfo
+export const reqUserInfo = () => {
+    return requests({
+        url: '/user/passport/auth/getUserInfo',
+        method: 'get'
+    })
+}
+// /api/user/passport/logout
+export const reqLogOut = () => {
+    return requests({
+        url: '/user/passport/logout',
+        method: 'get'
+    })
+}
+
+// /api/order/auth/trade
+export const reqTradeInfo = () => {
+    return requests({
+        url: '/order/auth/trade',
+        method: 'get'
+    })
+}

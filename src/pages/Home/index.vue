@@ -21,6 +21,7 @@ import Rank from '@/pages/Home/Rank'
 import Like from '@/pages/Home/Like'
 import Floor from '@/pages/Home/Floor'
 import {mapState} from 'vuex'
+import store from "@/store";
 
 export default {
     components: {
@@ -36,7 +37,9 @@ export default {
             return state.home.FloorList
         }
       })
-    }
+    },
+  mounted() {
+  }
 }
 </script>
 <style lang="">

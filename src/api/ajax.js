@@ -23,6 +23,9 @@ requests.interceptors.request.use((config)=>{
     if(store.state.detail.uuid_token) {
         config.headers.userTempId = store.state.detail.uuid_token
     }
+    if(store.state.user.token) {
+        config.headers.token = store.state.user.token
+    }
     return config;
 });
 requests.interceptors.response.use((res)=>{

@@ -1,15 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from "@/router/routes";
+import store from "@/store";
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
-    routes,
-    scrollBehavior(to, from, savePosition) {
-        return {y : 0}
-    }
-})
 // 保存原型push方法
 let orignPush = VueRouter.prototype.push;
 let orignReplace = VueRouter.prototype.replace;
@@ -35,3 +30,38 @@ VueRouter.prototype.replace = function(location, resolve, reject){
         orignReplace.call(this, location, ()=>{}, ()=>{})
     }
 }
+
+let router =  new VueRouter({
+    routes,
+    scrollBehavior(to, from, savePosition) {
+        return {y : 0}
+    }
+})
+
+router.beforeEach(async(to, from, next) => {
+    let token = store.state.user.token
+    let name = store.state.user.userInfo.name
+    if(token) {
+        if(name) {
+            if(to.path==='/login') {
+                next('/home')
+            }
+            else {
+                next()
+            }
+        }else {
+            try {
+                await store.dispatch('getUserInfo')
+            }
+            catch (err) {
+                await store.dispatch('logOut')
+            }
+            next()
+        }
+    } else {
+        next()
+    }
+})
+
+export default router
+

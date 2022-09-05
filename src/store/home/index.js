@@ -8,6 +8,8 @@ const actions = {
         let result = await reqCategoryList();
         if (result.code === 200) {
             context.commit('CATEGORYLIST', result.data)
+        } else {
+            return Promise.reject(new Error('faile'))
         }
     },
     async BannerList(context) {

@@ -5,11 +5,13 @@ import Search from "@/pages/Search";
 import Detail from "@/pages/Detail";
 import AddCartSuccess from "@/pages/AddCartSuccess";
 import ShopCart from "@/pages/ShopCart";
+import Trade from "@/pages/Trade";
+import Pay from "@/pages/Pay";
 
 export default [
     {
         path: '/home',
-        component: Home,
+        component: () => import('@/pages/Home'),
         name: 'home',
         meta: {
             showFooter: true
@@ -18,6 +20,7 @@ export default [
     {
         path: '/login',
         component: Login,
+        name: 'login',
         meta: {
             showFooter: false
         }
@@ -68,10 +71,26 @@ export default [
         meta: {
             showFooter: true
         }
-    }
+    },
     // 重定向
-    // {
-    //     path: '*',
-    //     redirect: '/home'
-    // }
+    {
+        path: '*',
+        redirect: '/home'
+    },
+    {
+        path: '/trade',
+        component: Trade,
+        name: 'trade',
+        meta: {
+            showFooter: true
+        }
+    },
+    {
+        path: '/pay',
+        component: Pay,
+        name: 'pay',
+        meta: {
+            showFooter: true
+        }
+    }
 ]

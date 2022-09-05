@@ -10,5 +10,6 @@ module.exports = {
                 target: 'http://gmall-h5-api.atguigu.cn'
             }
         }
-    }
+    },
+    productionSourceMap: false
 }
