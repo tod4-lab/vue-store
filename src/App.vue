@@ -17,7 +17,7 @@ export default {
     Footer
   },
   mounted() {
-    // this.$router.push('/home');
+    // this.$router.push('/home');s
     this.$store.dispatch('CategoryList');
     this.$store.dispatch('BannerList');
     this.$store.dispatch('FloorList');
